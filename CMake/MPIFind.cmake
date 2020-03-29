@@ -1,0 +1,24 @@
+#  IF($ENV{HOSTNAME} MATCHES "hydra*")
+#      SET(MPI_Fortran_COMPILER "mpiifort")
+#   ENDIF()
+
+   IF(MPI_ENABLED)
+#      FIND_PACKAGE(MPI)
+      FIND_PACKAGE(MPI REQUIRED CXX)
+   ENDIF(MPI_ENABLED)
+
+IF(MPI_FOUND)
+     MESSAGE(STATUS "MPI FOUND: ")
+     MESSAGE(STATUS "MPI Compiler is ${MPI_COMPILER}")
+     MESSAGE(STATUS "MPI_INCLUDE_DIRS: ${MPI_INCLUDE_DIRS}")
+     include_directories(${MPI_INCLUDE_DIRS})
+#   find_path(MPI_Fortran_MOD_DIR NAMES mpi.mod
+ #          PATHS $ENV{MPI_FORTRAN_MOD_DIR} ${MPI_Fortran_INCLUDE_PATH})
+ #    if(MPI_Fortran_MOD_DIR)
+ #      SET(MPI_Fortran_INCLUDE_PATH ${MPI_Fortran_MOD_DIR} ${MPI_Fortran_INCLUDE_PATH})
+ #    endif(MPI_Fortran_MOD_DIR)
+ELSE()
+     MESSAGE(STATUS "MPI NOT FOUND")
+     SET(MPI_ENABLED OFF CACHE BOOL " " FORCE)
+ENDIF()
+   
