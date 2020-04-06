@@ -61,9 +61,9 @@ enable_testing()
 
 #ADD_SUBDIRECTORY(src)
 
-#file(GLOB TARGETS "*.EXE *.dll")
-#set_target_properties(
-#  ${GLOB}
-#  PROPERTIES
-#  RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-#  )
+file(GLOB TARGETS "*.EXE *.dll")
+set_target_properties(
+  ${GLOB}
+  PROPERTIES
+  RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+  )
