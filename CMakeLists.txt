@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 project(wdm_cpl VERSION 0.0.1)
-ENABLE_LANGUAGE(CXX)
+ENABLE_LANGUAGE(CXX Fortran)
 #adios2 adds C and Fortran depending on how it was built
 
 set(CMAKE_Fortran_COMPILER gfortran)
@@ -10,6 +10,7 @@ set(CMAKE_CXX_COMPILER g++)
 OPTION(OPENMP_ENABLED       "Enable use of OpenMP library" on)
 OPTION(MPI_ENABLED          "Enable use of MPI library"  ON)
 
+SET(CMAKE_FORTRAN_FLAGS "-llpack -lblas -ldfftpack -lfftw3 -lm")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/modules)
@@ -56,14 +57,15 @@ FILE(GLOB_RECURSE MACROS ${PROJECT_SOURCE_DIR}/src/*.h)
 FILE(COPY ${MACROS} DESTINATION ${CMAKE_BINARY_DIR}/include)
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/include)
 
+
 include(CTest)
 enable_testing()
 
-#ADD_SUBDIRECTORY(src)
+ADD_SUBDIRECTORY(test)
 
-#file(GLOB TARGETS "*.EXE *.dll")
-#set_target_properties(
-#  ${GLOB}
-#  PROPERTIES
-#  RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-#  )
+file(GLOB TARGETS "*.EXE *.dll")
+set_target_properties(
+  ${GLOB}
+  PROPERTIES
+  RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+  )
