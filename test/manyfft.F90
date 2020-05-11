@@ -1,19 +1,22 @@
-program fft2dfortran
+program fftmanyfortran
 !implicit none
 !include "fftw3.f"
 
 real(8),parameter :: pi=3.1415926
-real(8) a(0:9,0:2),c(0:9,0:2)
+real(8) a(0:9,0:2),c(0:9,0:2),d(0:9,0:2)
 real(8) aa(0:29)
-complex(8) b(0:5,0:2)
+complex(8) b(0:5,0:2),e(0:5,0:2)
 complex(8) bb(0:15)
 integer i,j
-integer(8) forward,backward,forward2
+integer(8) forward,backward,forward2,forward3
 real(8) :: dx=pi/real(10,8);
 
 real(8) :: a1(0:9)
 complex(8)::b1(0:5)
 
+integer inembed(0:1), onembed(0:1)
+
+integer N(0:0)
 
 !call dfftw_plan_dft_r2c_1d(forward,10,aa,bb,FFTW_ESTIMATE)
 !do j=1,10
@@ -30,6 +33,7 @@ do i=0,2
   do j=0,9
     a(j,i)=sin(real(j,8)*dx)*cos(real(j,8)*dx)
     c(j,i)=a(j,i)
+    d(j,i)=a(j,i)
   end do
 end do
 
@@ -69,7 +73,7 @@ call dfftw_execute_dft_r2c(forward2,a1,b1)
 
 print*, "print out b1"
 do i=0,5
-print*, b1(i)/real(10,8)
+print*, b1(i)
 end do
 
 !!!! for the transform based on assembling all elements in to 1d 
@@ -89,10 +93,31 @@ do i=0,15
   print*, bb(i)
 end do
 
+inembed(0)=10
+inembed(1)=3
+onembed(0)=6
+onembed(1)=3
+N(0)=10
+call dfftw_plan_many_dft_r2c(forward3,1,N(0),3,  &
+                            d,inembed,1,10, &
+                            e,onembed,1,6, &
+                            FFTW_ESTIMATE)
+call dfftw_execute_dft_r2c(forward3,d,e)
+
+!print*
+!print*, "print out e()"
+!do i=0,2
+!  do j=0,5
+!    print*, e(j,i)
+!    if(j==5) then
+!      print*
+!    endif
+!  end do
+!end do
 
 call dfftw_destroy_plan(forward)
 call dfftw_destroy_plan(backward)
 call dfftw_destroy_plan(forward2)
-
+call dfftw_destroy_plan(forward3)
 
 end program

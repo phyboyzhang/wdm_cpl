@@ -12,6 +12,8 @@ OPTION(MPI_ENABLED          "Enable use of MPI library"  ON)
 
 SET(CMAKE_FORTRAN_FLAGS "-llpack -lblas -ldfftpack -lfftw3 -lm")
 
+#SET(CMAKE_CXX_FLAGS "-llpack -lblas -ldfftpack -lfftw3 -lm")
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/modules)
 SET (CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH} )
